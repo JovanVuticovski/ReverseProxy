@@ -4,9 +4,9 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.example.loadBalancer.RandomAlgorithm;
+import org.example.loadBalancer.RandomNodeAlgorithm;
 import org.example.node.NodeHandler;
-import org.example.loadBalancer.RoundRobinAlgorithm;
+
 import java.util.Scanner;
 
 public class ReverseProxyServer {
@@ -22,7 +22,7 @@ public class ReverseProxyServer {
         this.workerGroup = new NioEventLoopGroup();
 
         // Choosing Load Balancing algorithm
-        this.nodeHandler = new NodeHandler(this, new RandomAlgorithm());
+        this.nodeHandler = new NodeHandler(this, new RandomNodeAlgorithm());
     }
 
     public void start() {
