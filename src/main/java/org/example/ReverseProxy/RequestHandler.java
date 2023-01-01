@@ -1,4 +1,3 @@
-
 package org.example.ReverseProxy;
 
 import io.netty.bootstrap.Bootstrap;
@@ -26,10 +25,9 @@ public class RequestHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
 
-    // Run method when Original Client connects to ReverseProxy server
-    // Connect to Node(Server) when channel is active
+    // Getting request message from Original Client(Postman)
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
 
         // Channel connection between ReverseProxyServer(Client) and Node(Server)
         var bootstrap = new Bootstrap();
@@ -48,26 +46,16 @@ public class RequestHandler extends SimpleChannelInboundHandler<ByteBuf> {
                     // ctx.channel = Channel for ReverseProxy(Client) and Node(Server)
                     .handler(new InitiateResponseHandler(node, ctx.channel()))
                     .connect("localhost", node.getPort())
+                    .sync()
                     .channel();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        channel.close();
-    }
-
-
-    // Getting request message from Original Client(Postman)
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
-
         //Bytebuf = actual Request message
         // Send Request message to Node(server)
         channel.writeAndFlush(buf.copy());
     }
+
 
 
     // ERROR handling
