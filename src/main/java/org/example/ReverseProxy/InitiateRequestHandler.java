@@ -24,6 +24,7 @@ public class InitiateRequestHandler extends ChannelInitializer<SocketChannel> {
 
 
         // Add handler for request message from Original Client
+        // Sending in server to get WorkerGroup
         pipeline.addLast(new RequestHandler(server));
     }
 }

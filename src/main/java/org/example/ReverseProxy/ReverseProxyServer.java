@@ -61,6 +61,7 @@ public class ReverseProxyServer {
         }
     }
 
+    // using WorkerGroup to start connection between ReverseProxy and Node
     public EventLoopGroup getWorkerGroup() {
         return workerGroup;
     }
