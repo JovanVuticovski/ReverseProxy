@@ -7,8 +7,6 @@ public class RoundRobinAlgorithm implements LoadBalancer {
 
     private int nodeCounter = 0;
 
-
-    // nodeWeight > nodes.size
     @Override
     public Node next(List<Node> nodes) {
         if (nodes.isEmpty())
